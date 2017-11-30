@@ -14,7 +14,7 @@ public class aaaaaa {
 		ar.add("goo");
 		ar.add("sad");
 		ar.add("hap");
-		
+		ar.add("yaoo");
 		for(String x : ar) {
 			System.out.printf("%s ", x);
 		}
