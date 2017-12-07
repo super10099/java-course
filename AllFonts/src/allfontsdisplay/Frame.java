@@ -44,7 +44,7 @@ public class Frame extends JFrame{
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				jp.setFont(new Font((String) ((JList) e.getSource()).getSelectedValue(), Font.PLAIN, 72));
+				jp.setFont(new Font((String) ((JList) e.getSource()).getSelectedValue(), Font.ROMAN_BASELINE, 72));
 				repaint();
 			}
 			
