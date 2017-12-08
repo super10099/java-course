@@ -1,48 +1,123 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class Paddle extends JPanel{
+public class Paddle extends Rectangle{
 
 	private int paddleOrientation;
-	private final int WIDTH = 50;
-	private final int HEIGHT = 200;
+	private final int WIDTH = 25;
+	private final int HEIGHT = 100;
+	private boolean holdUp = false;
+	private boolean holdDown = false;
+	
+	private final double GRAVITY = .94;
+	private int speed = 2;
+	private int yVel;
+	private int yVelCap = 10;
+	
+	private long easingStart = 0;
+	private long timeLapsed = 0;
+	private long interTime = 1000;
+	private boolean tweenDebounce = false;
 	
 	public Paddle(int orientation) {
 		this.paddleOrientation = orientation;
+		if (paddleOrientation == 1) {
+			setBounds(0, Game.HEIGHT/2-HEIGHT/2, WIDTH, HEIGHT);
+		} else if (paddleOrientation == 2) {
+			setBounds(Game.WIDTH-WIDTH, Game.HEIGHT/2-HEIGHT/2, WIDTH, HEIGHT);
+		}
 	}
 	
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	public void draw(Graphics g) {
 		g.setColor(Color.ORANGE);
-		if (paddleOrientation == 1) {
-			g.fillRect(0, getHeight()/2-HEIGHT/2, WIDTH, HEIGHT);
-		} else if (paddleOrientation == 2) {
-			g.fillRect(getWidth()-WIDTH, getHeight()/2-HEIGHT/2, WIDTH, HEIGHT);
+		g.fillRect(x, y, WIDTH, HEIGHT);
+	}
+	
+	//idk the fuk im doing ok?
+	//quartic easing out
+	public int easingStyle(long t, int b, int c, long d) {
+		return (int) (c*t/d + b);
+	}
+	
+	public void setEasingStart(boolean reset) {
+		if (reset) {
+			tweenDebounce = false;
+		} else {
+			if (!tweenDebounce) {
+				tweenDebounce = true;
+				easingStart = System.currentTimeMillis();
+			}
 		}
+	}
+	
+	public void update() {
+		
+		// changes yVel
+		if (holdUp && holdDown || !holdUp && !holdDown) {
+			setEasingStart(false);
+			timeLapsed = System.currentTimeMillis() - easingStart;
+			if (timeLapsed <= interTime) {
+				System.out.println(easingStyle(timeLapsed, yVel, -yVel, interTime) + ", " + timeLapsed);
+				yVel = easingStyle(timeLapsed, yVel, -yVel, interTime);
+			} else {
+				yVel = 0;
+			}
+		}
+		else if (holdUp && !holdDown) {
+			setEasingStart(true);
+			yVel -= speed;
+		}
+		else if (holdDown && !holdUp) {
+			setEasingStart(true);
+			yVel += speed;
+		}
+		
+		// cap yVel
+		if (yVel >= yVelCap)
+			yVel = yVelCap;
+		else if (yVel <= -yVelCap)
+			yVel = -yVelCap;
+		
+		// applies yVel to vPos;
+		y += yVel;
 	}
 
 	public void pressed(int keyCode) {
 		if (paddleOrientation == 1) {
 			if (keyCode == KeyEvent.VK_A) {
-				System.out.println("a");
+				holdUp = true;
 			} else if (keyCode == KeyEvent.VK_D){
-				System.out.println("d");
+				holdDown = true;
 			}
 		} else if (paddleOrientation == 2){
 			if (keyCode == KeyEvent.VK_LEFT) {
-				System.out.println("l");
+				holdUp = true;
 			} else if (keyCode == KeyEvent.VK_RIGHT){
-				System.out.println("r");
+				holdDown = true;
 			}
 		}
 	}
 
 	public void released(int keyCode) {
-		// TODO Auto-generated method stub
-		
+		if (paddleOrientation == 1) {
+			if (keyCode == KeyEvent.VK_A) {
+				holdUp = false;
+			} else if (keyCode == KeyEvent.VK_D){
+				holdDown = false;
+			}
+		} else if (paddleOrientation == 2){
+			if (keyCode == KeyEvent.VK_LEFT) {
+				holdUp = false;
+			} else if (keyCode == KeyEvent.VK_RIGHT){
+				holdDown = false;
+			}
+		}
 	}
 
 }
