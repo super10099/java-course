@@ -63,7 +63,7 @@ public class Paddle extends Rectangle{
 			setEasingStart(false);
 			timeLapsed = System.currentTimeMillis() - easingStart;
 			if (timeLapsed <= interTime) {
-				System.out.println(easingStyle(timeLapsed, yVel, -yVel, interTime) + ", " + timeLapsed);
+				//System.out.println(easingStylae(timeLapsed, yVel, -yVel, interTime) + ", " + timeLapsed);
 				yVel = easingStyle(timeLapsed, yVel, -yVel, interTime);
 			} else {
 				yVel = 0;
@@ -85,7 +85,12 @@ public class Paddle extends Rectangle{
 			yVel = -yVelCap;
 		
 		// applies yVel to vPos;
-		y += yVel;
+		if (y + yVel >= 0 && y + HEIGHT + yVel <= Game.HEIGHT)
+			y += yVel;
+		else if (y + yVel <= 0)
+			y = 0;
+		else if (y + HEIGHT + yVel >= Game.HEIGHT)
+			y = Game.HEIGHT - HEIGHT;
 	}
 
 	public void pressed(int keyCode) {
