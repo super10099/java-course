@@ -95,15 +95,15 @@ public class Paddle extends Rectangle{
 
 	public void pressed(int keyCode) {
 		if (paddleOrientation == 1) {
-			if (keyCode == KeyEvent.VK_A) {
+			if (keyCode == KeyEvent.VK_W) {
 				holdUp = true;
-			} else if (keyCode == KeyEvent.VK_D){
+			} else if (keyCode == KeyEvent.VK_S){
 				holdDown = true;
 			}
 		} else if (paddleOrientation == 2){
-			if (keyCode == KeyEvent.VK_LEFT) {
+			if (keyCode == KeyEvent.VK_UP) {
 				holdUp = true;
-			} else if (keyCode == KeyEvent.VK_RIGHT){
+			} else if (keyCode == KeyEvent.VK_DOWN){
 				holdDown = true;
 			}
 		}
@@ -111,15 +111,15 @@ public class Paddle extends Rectangle{
 
 	public void released(int keyCode) {
 		if (paddleOrientation == 1) {
-			if (keyCode == KeyEvent.VK_A) {
+			if (keyCode == KeyEvent.VK_W) {
 				holdUp = false;
-			} else if (keyCode == KeyEvent.VK_D){
+			} else if (keyCode == KeyEvent.VK_S){
 				holdDown = false;
 			}
 		} else if (paddleOrientation == 2){
-			if (keyCode == KeyEvent.VK_LEFT) {
+			if (keyCode == KeyEvent.VK_UP) {
 				holdUp = false;
-			} else if (keyCode == KeyEvent.VK_RIGHT){
+			} else if (keyCode == KeyEvent.VK_DOWN){
 				holdDown = false;
 			}
 		}

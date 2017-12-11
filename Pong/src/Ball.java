@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+//hmm
+
 public class Ball extends java.awt.geom.Ellipse2D{
 	
 	public boolean touchedSides = false;
@@ -13,7 +15,7 @@ public class Ball extends java.awt.geom.Ellipse2D{
 	private int xPos = Game.WIDTH/2-width/2;
 	private int yPos = Game.HEIGHT/2-height/2;
 	
-	private double xSpeed = 2;
+	private double xSpeed = 10;
 	private double ySpeed = 2;
 	
 	private double xVel;
@@ -43,10 +45,12 @@ public class Ball extends java.awt.geom.Ellipse2D{
 			if (xPos <= 0) {
 				xVel *= -1;
 				touchedSides = true;
+				Game.newGame.setScore(1);
 			}
 			if (xPos+width >= Game.WIDTH) {
 				xVel *= -1;
 				touchedSides = true;
+				Game.newGame.setScore(2);
 			}
 			if (yPos <= 0) {
 				yVel *= -1;
