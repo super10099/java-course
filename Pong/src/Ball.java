@@ -9,14 +9,17 @@ public class Ball extends java.awt.geom.Ellipse2D{
 	
 	public boolean touchedSides = false;
 	
-	private int width = 30;
+	private int width = 15;
 	private int height = 30;
 	
 	private int xPos = Game.WIDTH/2-width/2;
 	private int yPos = Game.HEIGHT/2-height/2;
 	
-	private double xSpeed = 10;
+	private double xSpeed = 5;
 	private double ySpeed = 2;
+	
+	private double xAccel = 0;
+	private double yAccel = 8;
 	
 	private double xVel;
 	private double yVel;
@@ -45,12 +48,12 @@ public class Ball extends java.awt.geom.Ellipse2D{
 			if (xPos <= 0) {
 				xVel *= -1;
 				touchedSides = true;
-				Game.newGame.setScore(1);
+				Game.newGame.setScore(2);
 			}
 			if (xPos+width >= Game.WIDTH) {
 				xVel *= -1;
 				touchedSides = true;
-				Game.newGame.setScore(2);
+				Game.newGame.setScore(1);
 			}
 			if (yPos <= 0) {
 				yVel *= -1;
@@ -69,6 +72,10 @@ public class Ball extends java.awt.geom.Ellipse2D{
 		
 		xPos += xVel*xSpeed;
 		yPos += yVel*ySpeed;
+		
+		//accel
+		xSpeed += xAccel;
+		ySpeed = Math.random() * yAccel;
 	}
 	
 	public void draw(Graphics g) {

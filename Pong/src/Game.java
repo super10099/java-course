@@ -44,9 +44,9 @@ public class Game extends JPanel implements Runnable, KeyListener{
 		
 		
 		//game Objects
-		paddle1 = new Paddle(1);
-		paddle2 = new Paddle(2);
 		ball = new Ball();
+		paddle1 = new Paddle(1);
+		paddle2 = new Paddle(2, new Botv1());
 		ball.setRandomMotion();
 		
 		//threads
@@ -124,7 +124,10 @@ public class Game extends JPanel implements Runnable, KeyListener{
 			score2++;
 		}
 	}
-
+	
+	public Ball getBall() {
+		return ball;
+	}
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (begin == false) {
@@ -156,6 +159,15 @@ public class Game extends JPanel implements Runnable, KeyListener{
 		g.setFont(new Font("Arial", Font.BOLD, 20));
 		g.setColor(Color.WHITE);
 		g.drawString(scoreDisplay, WIDTH/2-width/2, 20);
+	}
+
+	public Paddle getPaddle(int i) {
+		if (i == 1) {
+			return paddle1;
+		} else if (i==2) {
+			return paddle2;
+		}
+		return null;
 	}
 
 }

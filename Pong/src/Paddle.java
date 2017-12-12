@@ -8,10 +8,11 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 public class Paddle extends Rectangle{
-
+	
+	private AIface bot;
 	private int paddleOrientation;
-	private final int WIDTH = 25;
-	private final int HEIGHT = 100;
+	private final int WIDTH = 30;
+	private final int HEIGHT = 125;
 	private boolean holdUp = false;
 	private boolean holdDown = false;
 	
@@ -32,6 +33,19 @@ public class Paddle extends Rectangle{
 		} else if (paddleOrientation == 2) {
 			setBounds(Game.WIDTH-WIDTH, Game.HEIGHT/2-HEIGHT/2, WIDTH, HEIGHT);
 		}
+	}
+	
+	public Paddle(int orientation, AIface bot) {
+		this.paddleOrientation = orientation;
+		if (paddleOrientation == 1) {
+			setBounds(0, Game.HEIGHT/2-HEIGHT/2, WIDTH, HEIGHT);
+		} else if (paddleOrientation == 2) {
+			setBounds(Game.WIDTH-WIDTH, Game.HEIGHT/2-HEIGHT/2, WIDTH, HEIGHT);
+		}
+		
+		bot.setBall(Game.newGame.getBall());
+		bot.setPaddle(this);
+		this.bot = bot;
 	}
 	
 	public void draw(Graphics g) {
@@ -57,7 +71,19 @@ public class Paddle extends Rectangle{
 	}
 	
 	public void update() {
-		
+		if (bot != null) {
+			String dir = bot.getDir();
+			if (dir.equalsIgnoreCase("up")) {
+				holdUp = true;
+				holdDown = false;
+			} else if (dir.equalsIgnoreCase("down")) {
+				holdDown = true;
+				holdUp = false;
+			} else if (dir.equalsIgnoreCase("null")) {
+				holdUp = false;
+				holdDown = false;
+			}
+		}
 		// changes yVel
 		if (holdUp && holdDown || !holdUp && !holdDown) {
 			setEasingStart(false);
@@ -94,17 +120,19 @@ public class Paddle extends Rectangle{
 	}
 
 	public void pressed(int keyCode) {
-		if (paddleOrientation == 1) {
-			if (keyCode == KeyEvent.VK_W) {
-				holdUp = true;
-			} else if (keyCode == KeyEvent.VK_S){
-				holdDown = true;
-			}
-		} else if (paddleOrientation == 2){
-			if (keyCode == KeyEvent.VK_UP) {
-				holdUp = true;
-			} else if (keyCode == KeyEvent.VK_DOWN){
-				holdDown = true;
+		if (bot == null) {
+			if (paddleOrientation == 1) {
+				if (keyCode == KeyEvent.VK_W) {
+					holdUp = true;
+				} else if (keyCode == KeyEvent.VK_S){
+					holdDown = true;
+				}
+			} else if (paddleOrientation == 2){
+				if (keyCode == KeyEvent.VK_UP) {
+					holdUp = true;
+				} else if (keyCode == KeyEvent.VK_DOWN){
+					holdDown = true;
+				}
 			}
 		}
 	}
