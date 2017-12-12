@@ -75,7 +75,7 @@ public class Ball extends java.awt.geom.Ellipse2D{
 		
 		//accel
 		xSpeed += xAccel;
-		ySpeed = Math.random() * yAccel;
+		ySpeed += yAccel;
 	}
 	
 	public void draw(Graphics g) {
