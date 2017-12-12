@@ -8,10 +8,8 @@ public class Botv1 implements AIface{
 		double centerOfPaddle = paddle.y+paddle.height/2;
 		double ballY = ball.getCenterY();
 		if (centerOfPaddle > ballY) {
-			System.out.println("up");
 			return "up";
 		} else if (centerOfPaddle < ballY){
-			System.out.println("down");
 			return "down";
 			
 		} else {

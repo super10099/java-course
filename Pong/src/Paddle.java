@@ -11,7 +11,7 @@ public class Paddle extends Rectangle{
 	
 	private AIface bot;
 	private int paddleOrientation;
-	private final int WIDTH = 30;
+	private final int WIDTH = 15;
 	private final int HEIGHT = 125;
 	private boolean holdUp = false;
 	private boolean holdDown = false;

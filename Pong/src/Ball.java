@@ -9,7 +9,7 @@ public class Ball extends java.awt.geom.Ellipse2D{
 	
 	public boolean touchedSides = false;
 	
-	private int width = 15;
+	private int width = 30;
 	private int height = 30;
 	
 	private int xPos = Game.WIDTH/2-width/2;
