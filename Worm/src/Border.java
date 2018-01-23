@@ -1,26 +1,33 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 import javax.swing.JPanel;
 
 public class Border extends JPanel implements Runnable{
 	
-	
-	public static final int startingLengthNode = 3;
-	public static final Point startingLocation = new Point();
+	public static final int GRID_DIMENSION = 10;
+	public static final int STARTING_LENGTH_NODE = 3;
+	public static Point startingLocation;
 	private final int TARGET_FPS = 60;
 	
-	private final int WIDTH = 600;
-	private final int HEIGHT = 400;
+	private final int WIDTH = 610;
+	private final int HEIGHT = 410;
+	
+	
+	
+	private SnakeLinkedList snakeNodes;
 	
 	private boolean isRunning = false;
 
 	Thread thread;
 	
 	
+	
 	public Border() {
-		setBackground(Color.BLACK);
+		
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
 		
@@ -30,7 +37,8 @@ public class Border extends JPanel implements Runnable{
 	}
 	
 	public void init() {
-		
+		snakeNodes = new SnakeLinkedList();
+		startingLocation = new Point(610/2, 410/2);
 	}
 	
 	public void run() {
@@ -48,8 +56,7 @@ public class Border extends JPanel implements Runnable{
 			delta += (currentTime-lastTime) / (1000000000/TARGET_FPS);
 			if (delta >= 0 ) {
 				delta--;
-				update();
-				render();
+				render(update());
 				fps++;
 			}
 			
@@ -60,9 +67,17 @@ public class Border extends JPanel implements Runnable{
 			}
 		}
 	}
-	public void update() {
-		
+	public Point update() {
+		Point newLocation = new Point();
+		return newLocation;
 	}
-	public void render() {
+	public void render(Point newLocation) {
+		snakeNodes.updateSnake(newLocation);
 	}
+	
+	public void paintComponent(Graphics g) {
+		render(g);
+	}
+	
+	
 }

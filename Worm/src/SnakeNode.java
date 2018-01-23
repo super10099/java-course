@@ -1,20 +1,22 @@
-import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
 public class SnakeNode extends Rectangle{
-	Point location;
+	
+	
+	
+	Point currentLocation;
+	Point lastLocation;
 	SnakeNode next = null;
 	
 	public SnakeNode(Point pt) {
-		location = pt;
+		this.setBounds(0,0, Border.GRID_DIMENSION, Border.GRID_DIMENSION);
+		currentLocation = pt;
 	}
 	
 	public void setLocation() {
 		
-	}
-	
-	public void paintComponent(Graphics2D g) {
-		g.fillRect(x, y, width, height);
 	}
 }
