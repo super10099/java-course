@@ -7,16 +7,21 @@ public class SnakeNode extends Rectangle{
 	
 	
 	
-	Point currentLocation;
 	Point lastLocation;
 	SnakeNode next = null;
 	
 	public SnakeNode(Point pt) {
 		this.setBounds(0,0, Border.GRID_DIMENSION, Border.GRID_DIMENSION);
-		currentLocation = pt;
+		if (pt == null) {
+			setLocation(0,0);
+		} else {
+			setLocation(pt);
+		}
 	}
-	
-	public void setLocation() {
 		
+	
+	public void draw(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect((int)getX(), (int)getY(), width, height);
 	}
 }

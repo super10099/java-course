@@ -10,13 +10,15 @@ public class Run extends JFrame{
 		EventQueue.invokeLater(new Runnable() {;
 		
 			public void run() {
+				Border newGame = new Border();
 				JFrame jf = new JFrame();
-				jf.add(new Border());
+				jf.add(newGame);
 				jf.pack();
 				jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				jf.setLocationRelativeTo(null);
 				jf.setBackground(Color.BLACK);
 				jf.setVisible(true);
+				//jf.addKeyListener(newGame);
 			}
 			
 		});
