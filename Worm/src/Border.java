@@ -34,21 +34,30 @@ public class Border extends JPanel implements Runnable{
 	}
 	
 	public void run() {
+		isRunning = true;
+		
+		double fpsTimer = System.currentTimeMillis();
 		double lastTime = System.nanoTime();
 		double currentTime = System.nanoTime();
-		double delta = 0;
+		double delta = 0D;
+		int fps = 0;
 		
 		while (isRunning) {
 			lastTime = currentTime;
 			currentTime = System.nanoTime();
-			delta = (currentTime-lastTime) / (1000000000/TARGET_FPS);
+			delta += (currentTime-lastTime) / (1000000000/TARGET_FPS);
 			if (delta >= 0 ) {
 				delta--;
-				System.out.println("updating");
 				update();
+				render();
+				fps++;
 			}
 			
-		render();
+			if (System.currentTimeMillis() - fpsTimer >= 1000) {
+				fpsTimer += 1000;
+				System.out.println("FPS: " + fps);
+				fps = 0;
+			}
 		}
 	}
 	public void update() {
