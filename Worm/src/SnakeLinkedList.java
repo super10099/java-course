@@ -10,7 +10,9 @@ public class SnakeLinkedList {
 		head = new SnakeNode(Border.startingLocation);
 		next = head;
 		for (int i=0; i<Border.STARTING_LENGTH_NODE; i++) {
-			SnakeNode newHead = new SnakeNode(null);
+			
+			SnakeNode newHead = new SnakeNode(new Point(305,205));
+			System.out.println(newHead.getLocation());
 			append(newHead);
 		}
 	}
@@ -31,4 +33,6 @@ public class SnakeLinkedList {
 			prevNode = node;
 		}
 	}
+	
+	
 }
