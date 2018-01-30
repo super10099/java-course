@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.util.Random;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,6 +11,10 @@ import javax.swing.JPanel;
 
 public class Border extends JPanel implements Runnable, KeyListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int HIT_NULL = -1;
 	private static final int HIT_SNAKE = 0;
 	private static final int HIT_APPLE = 1;
@@ -19,7 +22,7 @@ public class Border extends JPanel implements Runnable, KeyListener{
 	public static final int GRID_DIMENSION = 10;
 	public static final int STARTING_LENGTH_NODE = 0;
 	public static Point startingLocation;
-	private final int TARGET_FPS = 20;
+	private final int TARGET_FPS = 25;
 	
 	private final int WIDTH = 610;
 	private final int HEIGHT = 410;
@@ -33,6 +36,7 @@ public class Border extends JPanel implements Runnable, KeyListener{
 	private boolean moving = false;
 	private boolean keyCanRegister = false; // prevents player from glitching the game and moving the opposite direction until it has been updated.
 	// makes sure that you can only press key once until the next update();
+	@SuppressWarnings("unused")
 	private int points = 0; // snake score
 	
 	private Apple currentApple = null;
@@ -68,8 +72,6 @@ public class Border extends JPanel implements Runnable, KeyListener{
 		double lastTime = System.nanoTime();
 		double currentTime = System.nanoTime();
 		double delta = 0D;
-		int fps = 0;
-		
 		while (isRunning) {
 			lastTime = currentTime;
 			currentTime = System.nanoTime();
@@ -77,12 +79,10 @@ public class Border extends JPanel implements Runnable, KeyListener{
 			if (delta >= 0 ) {
 				delta--;
 				render(update());
-				fps++;
 			}
 			
 			if (System.currentTimeMillis() - fpsTimer >= 1000) {
 				fpsTimer += 1000;
-				fps = 0;
 			}
 		}
 	}

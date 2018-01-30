@@ -5,6 +5,11 @@ import java.awt.Rectangle;
 
 public class Apple extends Rectangle{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Apple(Point pt) {
 		setLocation(pt);
 	}
