@@ -4,15 +4,16 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.net.*;
 
 public class Server {
 	
-	private int user_id = 0;
 	private ServerSocket serverSocket;
 	private Server_View view;
 	
@@ -30,10 +31,10 @@ public class Server {
 			
 			while (serverRunning) {
 				Socket newSocket = serverSocket.accept();
-				Client client = new Client(newSocket, user_id++);
+				Client client = new Client(newSocket);
 				clients.add(client);
 				client.start();
-				view.displayText(String.format("user %d has joined", user_id));
+				view.displayText("someone has joined the server.");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -65,16 +66,14 @@ public class Server {
 	//client thread
 	private class Client extends Thread {
 		
-		private int user_id;
 		private Socket clientSocket;
-		private PrintWriter out;
+		private BufferedWriter out;
 		private Scanner in;
 		
-		public Client(Socket clientSocket, int id) {
-			this.user_id = id;
+		public Client(Socket clientSocket) {
 			this.clientSocket = clientSocket;
 			try {
-				out = new PrintWriter(clientSocket.getOutputStream());
+				out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 				in = new Scanner(clientSocket.getInputStream());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -83,18 +82,27 @@ public class Server {
 		
 		//write message to socket output
 		public void writeMessage(String msg) {
-			out.write(msg);
-			System.out.println("writing out msg");
+			try {
+				out.write(msg);
+				out.newLine();
+				out.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		
 		//listen for inputs
 		@Override
 		public void run() {
-			boolean isRunning = true;
-			String str = "";
-			while (isRunning) {
-				broadcast(in.nextLine());
+			try {
+				while (true) {
+					broadcast(in.nextLine());
+				}
+			//user disconnected
+			} catch (NoSuchElementException e) {
+				clients.remove(this);
+				broadcast("someone has left the server.");
 			}
 		}
 		

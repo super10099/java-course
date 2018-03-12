@@ -51,10 +51,11 @@ public class Client_View extends JFrame{
 	}
 	
 	
-	public void appendmainFrame(String msg, String userName) {
-		sdf.format(new Date());
-		String str = String.format("[%s] %s: %s ", sdf, userName, msg);
-		mainFrame.append(str);
+	public void appendmainFrame(String msg) {
+		String str = String.format("[%s] %s ", sdf.format(new Date()), msg);
+		mainFrame.append(str + "\n");
+		JScrollBar vscrollBar = mainScroll.getVerticalScrollBar();
+		vscrollBar.setValue(vscrollBar.getMaximum());
 	}
 	
 	public String getchatlnInput() {

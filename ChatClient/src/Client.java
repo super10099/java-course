@@ -1,8 +1,11 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -10,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client{
-
+	
+	private String username = "[unknown]";
 	private Client_View view;
 	private Socket clientSocket;
+	private SocketListener socketListener;
 	private BufferedWriter out;
 	
 	public Client(Client_View view) {
@@ -22,6 +27,12 @@ public class Client{
 	}
 	
 	
+	private void setuser_name(String username) {
+		this.username = username;
+	}
+	
+	
+	
 	//connect to server
 	private void connect(String ip, int port) {
 		System.out.println("hi");
@@ -29,9 +40,8 @@ public class Client{
 			clientSocket = new Socket(ip, port);
 			out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 			System.out.println("established");
-			while (true) {
-				
-			}
+			socketListener = new SocketListener(clientSocket.getInputStream());
+			socketListener.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -39,9 +49,18 @@ public class Client{
 		}
 	}
 	
+	//disconnect from socket
+	private void disconnect() {
+		try {
+			clientSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private String[] getCommand(String cmd) {
 		Scanner scanner = new Scanner(cmd);
-		String match = scanner.findInLine("/[\\w\\s]+");
+		String match = scanner.findInLine("/[\\w+\\s]+");
 		scanner.close();
 		
 		if (match != null) {
@@ -63,25 +82,45 @@ public class Client{
 				String str = view.getchatlnInput();
 				String[] args = getCommand(str);
 				if(args != null) {
-					
 					switch (args[0]) {
 					case "/connect":
-						System.out.println("WOO");
 						connect(args[1], Integer.parseInt(args[2]));
 						break;
-					}
-					
-						
+					case "/disconnect":
+						disconnect();
+						break;
+					case "/setname":
+						setuser_name(args[1]);
+					}	
+				} else {
+					out.write(String.format("%s: %s", username, str));
+					out.newLine();
+					out.flush();
 				}
-				out.write(str + " ");
-				out.newLine();
-				out.flush();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (ArrayIndexOutOfBoundsException ex) {
+				ex.printStackTrace();
 			}
 		}
 		
+	}
+	
+	//listen for inputstream
+	private class SocketListener extends Thread{
+		
+		private Scanner reader;
+		
+		public SocketListener(InputStream in) {
+			reader = new Scanner(in);
+		}
+		
+		@Override
+		public void run() {
+			while (true) {
+				view.appendmainFrame(reader.nextLine());
+			}
+		}
 	}
 	
 	
