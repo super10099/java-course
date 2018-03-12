@@ -3,7 +3,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +45,15 @@ public class Server_View extends JFrame{
 		jpanel.setBackground(Color.BLACK);
 		jpanel.add(textField, BorderLayout.SOUTH);
 		
+		//icon
+		try {
+			BufferedImage image = ImageIO.read(new File("res/images/POGGERS.png"));
+			setIconImage(image);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		pack();
 		setLocationRelativeTo(null);
 		add(jpanel);
@@ -66,8 +79,8 @@ public class Server_View extends JFrame{
 		textField.addActionListener(l);
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		new Server_View();
 	}
-	*/
+	
 }

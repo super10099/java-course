@@ -3,7 +3,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +48,14 @@ public class Client_View extends JFrame{
 		mainFrame.setEditable(false);
 		jpanel.add(mainFrame, BorderLayout.CENTER);
 		
+		//icon
+			try {
+				BufferedImage image = ImageIO.read(new File("res/images/POGGERS.png"));
+				setIconImage(image);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		//set visible
 		add(jpanel);
@@ -73,7 +86,7 @@ public class Client_View extends JFrame{
 		chatln.addActionListener(l);
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		new Client_View();
-	}*/
+	}
 }
