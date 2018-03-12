@@ -31,10 +31,10 @@ public class Server {
 			
 			while (serverRunning) {
 				Socket newSocket = serverSocket.accept();
+				broadcast("someone has joined the server.");
 				Client client = new Client(newSocket);
 				clients.add(client);
 				client.start();
-				view.displayText("someone has joined the server.");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public class Server {
 			String cmd = view.getCmd();
 			ArrayList<String> args = parseCommand(cmd);
 			view.clearcmdln(); //clear cmdln
-			view.displayText(cmd);
+			broadcast("[SERVER]: " + cmd);
 			
 			for(String temp:args) {
 				System.out.print(temp + " ");

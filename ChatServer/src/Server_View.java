@@ -32,6 +32,7 @@ public class Server_View extends JFrame{
 		//jcomponents
 		mainFrame.setBackground(Color.BLACK);
 		mainFrame.setForeground(Color.WHITE);
+		mainFrame.setCaretColor(Color.WHITE);
 		mainFrame.setEditable(false);
 		jpanel.add(mainScroll, BorderLayout.CENTER);
 		

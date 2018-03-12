@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Client{
@@ -53,6 +54,7 @@ public class Client{
 	private void disconnect() {
 		try {
 			clientSocket.close();
+			clientSocket = null;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -85,6 +87,7 @@ public class Client{
 					switch (args[0]) {
 					case "/connect":
 						connect(args[1], Integer.parseInt(args[2]));
+						view.appendmainFrame(String.format("You've successfully joined %s", clientSocket.getInetAddress()));
 						break;
 					case "/disconnect":
 						disconnect();
@@ -93,10 +96,15 @@ public class Client{
 						setuser_name(args[1]);
 					}	
 				} else {
-					out.write(String.format("%s: %s", username, str));
-					out.newLine();
-					out.flush();
+					if (clientSocket != null) {
+						out.write(String.format("%s: %s", username, str));
+						out.newLine();
+						out.flush();
+					}
 				}
+				
+				//clear cahtln
+				view.clearchatln();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ArrayIndexOutOfBoundsException ex) {
@@ -117,8 +125,13 @@ public class Client{
 		
 		@Override
 		public void run() {
-			while (true) {
-				view.appendmainFrame(reader.nextLine());
+			try {
+				while (true) {
+					view.appendmainFrame(reader.nextLine());
+				}
+			} catch (NoSuchElementException ex) {
+				//wait for gc
+				socketListener = null;
 			}
 		}
 	}

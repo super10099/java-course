@@ -34,6 +34,7 @@ public class Client_View extends JFrame{
 		//chatln
 		chatln.setBackground(Color.BLACK);
 		chatln.setForeground(Color.WHITE);
+		chatln.setCaretColor(Color.WHITE);
 		jpanel.add(chatln, BorderLayout.SOUTH);
 		
 		//mainframe
@@ -50,16 +51,22 @@ public class Client_View extends JFrame{
 		setVisible(true);
 	}
 	
-	
+	//append to main frame
 	public void appendmainFrame(String msg) {
-		String str = String.format("[%s] %s ", sdf.format(new Date()), msg);
+		String str = String.format("[Server][%s] %s ", sdf.format(new Date()), msg);
 		mainFrame.append(str + "\n");
 		JScrollBar vscrollBar = mainScroll.getVerticalScrollBar();
 		vscrollBar.setValue(vscrollBar.getMaximum());
 	}
 	
+	//get chatlninput
 	public String getchatlnInput() {
 		return chatln.getText();
+	}
+	
+	//clear chatln
+	public void clearchatln() {
+		chatln.setText(null);
 	}
 	
 	public void addchatlnListener(ActionListener l) {
