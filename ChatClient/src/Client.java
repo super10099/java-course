@@ -96,7 +96,7 @@ public class Client{
 						setuser_name(args[1]);
 					}	
 				} else {
-					if (clientSocket != null) {
+					if (clientSocket != null && !str.isEmpty()) {
 						out.write(String.format("%s: %s", username, str));
 						out.newLine();
 						out.flush();
