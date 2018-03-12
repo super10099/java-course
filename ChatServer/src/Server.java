@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.net.*;
 
@@ -13,6 +15,8 @@ public class Server {
 	private int user_id = 0;
 	private ServerSocket serverSocket;
 	private Server_View view;
+	
+	private ArrayList<Client> clients = new ArrayList<Client>();
 	
 	private boolean serverRunning = true;
 	
@@ -26,7 +30,9 @@ public class Server {
 			
 			while (serverRunning) {
 				Socket newSocket = serverSocket.accept();
-				Thread clientThread = new Thread(new Client(newSocket, user_id++));
+				Client client = new Client(newSocket, user_id++);
+				clients.add(client);
+				client.start();
 				view.displayText(String.format("user %d has joined", user_id));
 			}
 		} catch (IOException e) {
@@ -48,24 +54,47 @@ public class Server {
 		return args;
 	}
 	
-	
+	public synchronized void broadcast(String msg) {
+		view.displayText(msg);
+		for(Client c:clients) {
+			c.writeMessage(msg);
+		}
+	}
 	
 	
 	//client thread
-	private class Client implements Runnable {
+	private class Client extends Thread {
 		
 		private int user_id;
 		private Socket clientSocket;
+		private PrintWriter out;
+		private Scanner in;
 		
 		public Client(Socket clientSocket, int id) {
 			this.user_id = id;
 			this.clientSocket = clientSocket;
+			try {
+				out = new PrintWriter(clientSocket.getOutputStream());
+				in = new Scanner(clientSocket.getInputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-
+		
+		//write message to socket output
+		public void writeMessage(String msg) {
+			out.write(msg);
+			System.out.println("writing out msg");
+		}
+		
+		
+		//listen for inputs
 		@Override
 		public void run() {
-			while (true) {
-				
+			boolean isRunning = true;
+			String str = "";
+			while (isRunning) {
+				broadcast(in.nextLine());
 			}
 		}
 		
