@@ -73,7 +73,7 @@ public class Client_View extends JFrame{
 		chatln.addActionListener(l);
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		new Client_View();
-	}
+	}*/
 }
