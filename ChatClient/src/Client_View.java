@@ -46,7 +46,7 @@ public class Client_View extends JFrame{
 		mainFrame.setBackground(Color.BLACK);
 		mainFrame.setForeground(Color.WHITE);
 		mainFrame.setEditable(false);
-		jpanel.add(mainFrame, BorderLayout.CENTER);
+		jpanel.add(mainScroll, BorderLayout.CENTER);
 		
 		//icon
 			try {

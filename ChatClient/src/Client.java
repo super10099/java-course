@@ -62,7 +62,7 @@ public class Client{
 	
 	private String[] getCommand(String cmd) {
 		Scanner scanner = new Scanner(cmd);
-		String match = scanner.findInLine("/[\\w+\\s]+");
+		String match = scanner.findInLine("/[\\w.\\s]+");
 		scanner.close();
 		
 		if (match != null) {
