@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class Client_View extends JFrame{
 	
-	private static final String TITLE = "Tinsant messenger";
+	private static final String TITLE = "Tintsant messenger";
 	
 	private final int WIDTH = 500;
 	private final int HEIGHT = 300;
