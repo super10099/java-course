@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/icon.png</name>
-			<type>1</type>
-			<location>C:/Users/Thinh Nguyen/Pictures/POGGERS.png</location>
-		</link>
-	</linkedResources>
 </projectDescription>

@@ -50,7 +50,7 @@ public class Client_View extends JFrame{
 		
 		//icon
 			try {
-				BufferedImage image = ImageIO.read(new File("res/images/POGGERS.png"));
+				BufferedImage image = ImageIO.read(getClass().getResource("/images/POGGERS.png"));
 				setIconImage(image);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
